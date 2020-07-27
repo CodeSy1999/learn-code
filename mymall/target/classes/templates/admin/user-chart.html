@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+  </div>
+
+    <div class="layui-side layui-bg-black" th:replace="admin/frame::left(1,12)">
+    </div>
+
+  <div class="layui-body">
+		<div class="layui-row">
+    <div class="layui-col-xs6" style="padding:10px">
+      <div id="main" style="width: 600px;height:400px;"></div>
+    </div>
+    <div class="layui-col-xs6" style="padding:10px">
+      <div id="main2" style="width: 600px;height:400px;"></div>
+    </div>
+  </div>
+    <div class="layui-col-md8 layui-col-md-offset3">
+      <div class="layui-inline">
+          <label class="layui-form-label">年月范围</label>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="test8" placeholder="                 ------ ">
+          </div>
+        </div>
+      	 最多显示近六个月的注册量
+      </div>
+    </div>
+
+		
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    ©  底部固定区域
+  </div>
+</div>
+<script src="/js/layui.all.js"></script>
+<script src="/js/echarts.js"></script>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+				
+				function fetchData() {				 
+					 //获取服务端的数据
+					 
+					 myChart.hideLoading();
+				}
+				myChart.showLoading();
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '近几月注册量'
+            },
+            tooltip: {},
+            legend: {
+                data:['注册量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '注册量',
+                type: 'bar',
+								color:'lightblue',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+				
+        myChart.setOption(option);
+				fetchData();
+				
+				var myChart2 = echarts.init(document.getElementById('main2'));
+			  var option2 = {
+						series : [
+								{
+										name: '访问来源',
+										type: 'pie',
+										radius: '55%',
+										data:[
+												{value:235, name:'视频广告'},
+												{value:274, name:'联盟广告'},
+												{value:310, name:'邮件营销'},
+												{value:335, name:'直接访问'},
+												{value:400, name:'搜索引擎'}
+										]
+								}
+						]
+				};
+				myChart2.setOption(option2);
+				
+    </script>
+<script>
+
+//JavaScript代码区域
+ layui.use('element', function(){
+  var element = layui.element;
+  
+});
+
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+	//年月范围
+  laydate.render({
+    elem: '#test8'
+		,min: -180 //7天前
+		,max: 120 //7天后
+    ,type: 'month'
+		,done: function(value, date){
+		  alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(value));
+		}
+		,range: true
+  });
+});
+
+</script>
+</body>
+</html>

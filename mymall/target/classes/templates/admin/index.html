@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+<!--<head>-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>大米手机商城主页</title>
+  <link rel="stylesheet" href="/css/layui.css" />
+    <link rel="stylesheet" href="/css/laydate.css" />
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src="/layer/layer.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+  </div>
+  
+  <div class="layui-side layui-bg-black" th:replace="admin/frame::left(0,0)">
+    <!--<div class="layui-side-scroll">
+      &lt;!&ndash; 左侧导航区域（可配合layui已有的垂直导航） &ndash;&gt;
+      <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
+&lt;!&ndash; 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> &ndash;&gt;
+  <li class="layui-nav-item">
+    <a href="javascript:;"><i class="layui-icon layui-icon-user"></i> 用户管理</a>
+    <dl class="layui-nav-child">
+      <dd><a href="user-list.html"><i class="layui-icon layui-icon-group"></i> 用户列表</a></dd>
+      
+	  <dd><a href="user-chart.html"><i class="layui-icon layui-icon-tabs"></i> &nbsp;统计图表</a></dd>
+      &lt;!&ndash; <dd><a href="">跳转</a></dd> &ndash;&gt;
+    </dl>
+  </li>
+  <li class="layui-nav-item">
+    <a href="javascript:;"><i class="layui-icon layui-icon-cellphone"></i> 商品管理</a>
+    <dl class="layui-nav-child">
+      <dd><a href="sale-list.html"><i class="layui-icon layui-icon-templeate-1" style="font-size: 16px;"></i> 在售列表</a></dd>
+    <dd><a href="phone-list.html"><i class="layui-icon layui-icon-cellphone-fine"></i> 所有手机</a></dd>
+      
+    </dl>
+  </li>
+	
+  <li class="layui-nav-item">
+		<a href="javascript:;"><i class="layui-icon layui-icon-form"></i> 订单管理</a>
+		<dl class="layui-nav-child">
+		  <dd><a href="order-list.html"><i class="layui-icon layui-icon-cart-simple"></i> 所有订单</a></dd>
+		<dd><a href="order-refund.html"><i class="layui-icon layui-icon-rmb"></i> 退款订单</a></dd>
+		<dd><a href="order-chart.html"><i class="layui-icon layui-icon-tabs"></i> 统计图表</a></dd>
+		</dl>
+	</li>
+		
+  <li class="layui-nav-item">
+		<a href="javascript:;"><i class="layui-icon layui-icon-form"></i> 促销管理</a>
+		<dl class="layui-nav-child">
+		  <dd><a href="promotion-list.html"><i class="layui-icon layui-icon-fire"></i> 促销商品</a></dd>
+		<dd><a href="promotion-open.html"><i class="layui-icon layui-icon-app"></i> 开启促销</a></dd>
+		</dl>
+	</li>
+	
+	<li class="layui-nav-item">
+		<a href="javascript:;"><i class="layui-icon layui-icon-senior"></i> 模拟测试</a>
+		<dl class="layui-nav-child">
+		  <dd><a href="javascript:;"><i class="layui-icon layui-icon-fire"></i> 高并发抢购</a></dd>
+		</dl>
+	</li>
+	
+	<li class="layui-nav-item">
+		<a href="javascript:;"><i class="layui-icon layui-icon-read"></i> 日志查看</a>
+		<dl class="layui-nav-child">
+			<dd><a href="log-user.html"><i class="layui-icon layui-icon-group"></i> 用户日志</a></dd>
+		  <dd><a href="log-admin.html"><i class="layui-icon layui-icon-auz"></i> 管理员日志</a></dd>
+		</dl>
+	</li>
+	
+	<li class="layui-nav-item">
+		<a href="javascript:;"><i class="layui-icon layui-icon-component"></i> 管理员权限</a>
+		<dl class="layui-nav-child">
+			<dd><a href="admin-list.html"><i class="layui-icon layui-icon-group"></i> 管理员列表</a></dd>
+		  <dd><a href="authority-manager.html"><i class="layui-icon layui-icon-auz"></i> &nbsp;权限管理</a></dd>
+			<dd><a href="admin-message.html"><i class="layui-icon layui-icon-notice"></i> &nbsp;消息管理</a></dd>
+		</dl>
+	</li>
+	
+</ul>
+        
+    </div>-->
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <!-- <div style="padding: 15px;">内容主体区域</div> -->
+	
+	<!-- <table class="layui-hide" id="test"></table> -->
+  </div>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © 底部固定区域
+  </div>
+</div>
+<script src="/js/layui.all.js" th:src="@{/js/layui.all.js}"></script>
+<script>
+//JavaScript代码区域
+ layui.use('element', function(){
+  var element = layui.element;
+  
+}); 
+
+
+
+</script>
+</body>
+</html>

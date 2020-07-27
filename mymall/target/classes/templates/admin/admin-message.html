@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+			</div>
+
+			<div class="layui-side layui-bg-black"
+				 th:replace="admin/frame::left(7,73)">
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+					<h3 style="color: #EB7350">消息通知</h3>
+					<hr class="layui-bg-red">
+				</div>
+
+				<div style="padding: 10px;">
+					<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+					
+					<div class="layui-row">
+						<div class="layui-col-md8">
+							<div id="demo1"></div>
+						</div>
+					</div>
+				
+				</div>
+
+				<div class="layui-footer">
+					<!-- 底部固定区域 -->
+					©  底部固定区域
+				</div>
+			</div>
+			<script src="/js/layui.all.js"></script>
+			<script type="text/html" id="barDemo">
+						<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			</script>
+			<script type="text/html" id="checkboxTpl">
+						<!-- 这里的 checked 的状态只是演示 -->
+			  <input type="checkbox" name="已读" value="{{d.id}}" title="已读" lay-filter="lockDemo" {{ d.id = 'checked' }}>
+			</script>
+			<script>
+				//JavaScript代码区域
+				var urlstr = '/json/user.json';
+				var form;
+				
+				layui.use('form', function() {
+					form = layui.form;
+				
+				});
+				
+				layui.use('element', function() {
+					var element = layui.element;
+
+				});
+				
+			layui.use('table', function() {
+				var table = layui.table;
+				table.render({
+					elem: '#LAY_table_user'
+						// ,url:'json/user.json'
+						,
+					url: urlstr,
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+								type: 'numbers'
+							},
+							{
+								field: 'id',
+								width: 120,
+								title: '发送者ID',
+								sort: true
+							}, {
+								field: 'username',
+								width: 120,
+								title: '发送者身份',
+								// edit: 'text'
+							}, {
+								field: 'sex',
+								width: 120,
+								title: '发送者名',
+								sort: true
+							}, {
+								field: 'city',
+								width: 130,
+								title: '时间',
+								// edit: 'text'
+							},
+							{
+								field: 'classify',
+								title: '内容',
+								width: 180
+							},
+							{
+								field: 'classify',
+								title: '是否已读',
+								width: 110,
+								templet: '#checkboxTpl',
+								unresize: true
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#barDemo',
+								width: 220
+							}
+						]
+					]
+				});
+				
+			    // 将新消息
+				
+				//监听锁定操作
+				form.on('checkbox(lockDemo)', function(obj) {
+					layer.msg(JSON.stringify(obj));
+					layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked,obj.othis);
+				});
+				
+				//监听工具条
+				table.on('tool(user)', function(obj) {
+					// alert(table);
+					var data = obj.data;
+					if (obj.event === 'detail') {
+						// layer.open('ID：'+ data.id + ' 的查看操作'+data.username);
+						layer.open({
+							content: JSON.stringify(data)
+						});
+					} else if (obj.event === 'del') {
+						layer.confirm('确认删除吗?', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if (obj.event === 'edit') {
+						layer.alert('编辑行：<br>' + JSON.stringify(data))
+					}
+				});
+				
+				
+				});
+				
+				layui.use('laypage', function() {
+					var laypage = layui.laypage;
+				
+					//总页数大于页码总数
+					//完整功能
+					laypage.render({
+						elem: 'demo1',
+						count: 50,
+						layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+						jump: function(obj, first) {
+							//向服务端发送数据,请求数据
+							console.log(obj)
+				
+						}
+					});
+				});
+				
+			</script>
+		</div>
+	</body>
+</html>

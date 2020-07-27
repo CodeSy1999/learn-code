@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+			</div>
+
+			<div class="layui-side layui-bg-black"
+				 th:replace="admin/frame::left(7,72)">
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+					<h3 style="color: #EB7350">您的权限等级为低</h3>
+					<hr class="layui-bg-red">
+				</div>
+
+				<div class="layui-collapse" lay-accordion>
+					<div class="layui-colla-item">
+								<h2 class="layui-colla-title"><b>注册管理权限</b></h2>
+								
+								<div class="layui-colla-content layui-show">
+									<form class="layui-form" action="javascript:;">
+										<div class="layui-row">
+											<div class="layui-col-xs4">
+										<div class="layui-form-item">
+											<label class="layui-form-label">注册功能：</label>
+											<input type="checkbox" name="normal" title="开启" checked="checked">
+										</div>
+										</div>
+										<div class="layui-col-xs4">
+										每天注册人数限制：
+										<div class="layui-input-inline">
+											<input type="number" min=1 name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+											</div>
+											</div>
+											<div class="layui-col-xs4">
+												<!-- 如果关闭注册那么此限制失效 -->
+												<button type="button" class="layui-btn layui-btn-danger">限制</button>
+											</div>
+										</div>
+									</form>
+									
+								</div>
+									</div>
+						</div>
+
+
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title"><b>模拟测试权限</b></h2>
+							<div class="layui-colla-content layui-show">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;未开放...
+							</div>
+						</div>
+						
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title"><b>促销管理权限</b></h2>
+							<div class="layui-colla-content layui-show">
+								<form class="layui-form" action="javascript:;">
+								<div class="layui-form-item">
+									<label class="layui-form-label">促销功能：</label>
+									<input type="checkbox" name="normal" title="开启" checked="checked">
+								</div>
+								</form>
+							</div>
+						</div>
+						
+						<div class="layui-colla-item">
+							<h2 class="layui-colla-title"><b>高级特权管理</b></h2>
+							<div class="layui-colla-content layui-show">
+								<!-- 列出权限等级低于或等于您的管理员 -->
+								
+								<div style="padding: 10px;">
+									<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+									
+									<div class="layui-row">
+										<div class="layui-col-md8">
+											<div id="demo1"></div>
+										</div>
+									</div>
+								
+								</div>
+								
+							</div>
+						</div>
+					</div>
+
+					<!-- <table class="layui-hide" id="test"></table> -->
+				</div>
+
+				<div class="layui-footer">
+					<!-- 底部固定区域 -->
+					© 底部固定区域
+				</div>
+			</div>
+			<script src="/js/layui.all.js"></script>
+			<script type="text/html" id="barDemo">
+						<a class="layui-btn layui-btn-xs" lay-event="detail">权限升级</a>
+			  <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="detail">权限降级</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+			</script>
+			<script>
+				//JavaScript代码区域
+				var urlstr = '/json/user.json';
+				
+				layui.use('element', function() {
+					var element = layui.element;
+
+				});
+				
+			layui.use('table', function() {
+				var table = layui.table;
+				table.render({
+					elem: '#LAY_table_user'
+						// ,url:'json/user.json'
+						,
+					url: urlstr,
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+								type: 'numbers'
+							},
+							{
+								field: 'id',
+								width: 180,
+								title: '管理员ID',
+								sort: true
+							}, {
+								field: 'username',
+								width: 180,
+								title: '管理员名',
+								// edit: 'text'
+							}, {
+								field: 'sex',
+								width: 180,
+								title: '性别',
+								sort: true
+							}, {
+								field: 'city',
+								width: 170,
+								title: '权限等级',
+								// edit: 'text'
+							},
+							/* {
+								field: 'classify',
+								title: '状态'
+							} */
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#barDemo',
+								width: 220
+							}
+						]
+					]
+				});
+				
+				//监听工具条
+				table.on('tool(user)', function(obj) {
+					// alert(table);
+					var data = obj.data;
+					if (obj.event === 'detail') {
+						// layer.open('ID：'+ data.id + ' 的查看操作'+data.username);
+						layer.open({
+							content: JSON.stringify(data)
+						});
+					} else if (obj.event === 'del') {
+						layer.confirm('确认删除吗?', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if (obj.event === 'edit') {
+						layer.alert('编辑行：<br>' + JSON.stringify(data))
+					}
+				});
+				
+				});
+				
+				layui.use('laypage', function() {
+					var laypage = layui.laypage;
+				
+					//总页数大于页码总数
+					//完整功能
+					laypage.render({
+						elem: 'demo1',
+						count: 50,
+						layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+						jump: function(obj, first) {
+							//向服务端发送数据,请求数据
+							console.log(obj)
+				
+						}
+					});
+				});
+				
+			</script>
+	</body>
+</html>

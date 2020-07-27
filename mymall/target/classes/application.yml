@@ -1,0 +1,65 @@
+#com.codeashuai.mapper: trace   mapper下的级别为trace，其他指定配置文件中的
+logging:
+  config: logback.xml
+  level:
+    com.codeashuai.mapper: trace
+
+# 激活哪一个环境
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    servlet:
+      content-type: text/html
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mymall?useSSL=false&serverTimezone=UTC
+    username: root
+    password: '0000'
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      validationQuery: SELECT 1
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      filters: stat
+      async-init: true
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.SlowSqlMills=5000
+      #监控后台的配置，如登录账号和密码等
+      monitor:
+        allow: 127.0.0.1
+        loginUsername: admin
+        loginPassword: 123
+        resetEnable: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+server:
+  tomcat:
+    uri-encoding: utf-8
+
+
+
+
+

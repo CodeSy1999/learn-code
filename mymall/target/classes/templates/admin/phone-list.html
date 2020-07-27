@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+			</div>
+
+			<div class="layui-side layui-bg-black"
+				 th:replace="admin/frame::left(2,22)">
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 10px;">
+
+					<div class="demoTable" style="padding: 10px;">
+						<form class="layui-form" action="javascript:;">
+							<!-- 商品名称：
+					<div class="layui-inline">
+						<input class="layui-input" name="id" id="demoReload" autocomplete="off">
+					</div> -->
+
+							
+								价格范围：
+								<div class="layui-input-inline" >
+									<input type="text" name="price_min" placeholder="￥" class="layui-input" style="width: 70px;">
+								</div> --
+								<!-- <div class="layui-form-mid">-</div> -->
+								<div class="layui-input-inline" style="width: 100px;">
+									<input type="text" name="price_max" placeholder="￥" class="layui-input" style="width: 75px;">
+								</div>
+							
+
+							&nbsp;&nbsp;&nbsp;&nbsp;品牌：
+							<!-- 下拉列表 -->
+							<!-- <input type="checkbox" name="normal" title="正常"> -->
+
+							<div class="layui-input-inline">
+								<select name="modules" lay-verify="required" lay-search="">
+									<option value="0"></option>
+									<option value="1">layer</option>
+									<option value="2">form</option>
+									<option value="3">layim</option>
+									<option value="4">element</option>
+									<option value="5">laytpl</option>
+									<option value="6">upload</option>
+									<option value="7">laydate</option>
+									<option value="8">laypage</option>
+									<option value="9">flow</option>
+									<option value="10">util</option>
+									<option value="11">code</option>
+									<option value="12">tree</option>
+									<option value="13">layedit</option>
+									<option value="14">nav</option>
+									<option value="15">tab</option>
+									<option value="16">table</option>
+									<option value="17">select</option>
+									<option value="18">checkbox</option>
+									<option value="19">switch</option>
+									<option value="20">radio</option>
+								</select>
+							</div>
+
+							<div class="layui-inline">
+								<label class="layui-form-label">型号：</label>
+								<div class="layui-input-inline">
+									<!-- <input type="text" class="layui-input" id="test6" placeholder="                    - "> -->
+
+									<input class="layui-input" style="width: 70px;" name="xinghao">
+								</div>
+							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button class="layui-btn"><i class="layui-icon layui-icon-search"></i>搜索</button>
+							<button type="button" class="layui-btn"><i class="layui-icon layui-icon-add-circle"></i>添加商品</button>
+							<!-- 发送ajax请求 -->
+						</form>
+					</div>
+
+					<table class="layui-hide" id="LAY_table_sale" lay-filter="sale"></table>
+
+					<div class="layui-row">
+						<div class="layui-col-md8">
+							<div id="demo1"></div>
+						</div>
+						<div class="layui-col-md4">
+							<br>
+							图片 <i class="layui-icon layui-icon-picture" style="font-size: 16px;"></i> 和价格<i class="layui-icon layui-icon-rmb"></i>
+							可以修改，需要中级管理员权限 <i class="layui-icon layui-icon-vercode"></i>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				©  底部固定区域
+			</div>
+		</div>
+		<script src="/js/layui.all.js"></script>
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+		<script>
+			var urlstr = '/json/user.json';
+			//JavaScript代码区域
+			layui.use('element', function() {
+				var element = layui.element;
+			});
+
+			layui.use('table', function() {
+				var table = layui.table;
+				table.render({
+					elem: '#LAY_table_sale'
+						// ,url:'json/user.json'
+						,
+					url: urlstr,
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+								type: 'numbers'
+							},
+							{
+								field: 'id',
+								width: 80,
+								title: 'ID',
+								sort: true
+							},
+							{
+								field: 'username',
+								width: 80,
+								title: '品牌',
+								edit: 'text'
+							}, {
+								field: 'sex',
+								width: 80,
+								title: '型号'
+							}, {
+								field: 'city',
+								width: 80,
+								title: '定价',
+								sort: true,
+								edit: 'text'
+							}, {
+								field: 'sign',
+								title: '描述',
+								width: '20%',
+								minWidth: 40
+							} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+							, {
+								field: 'experience',
+								title: '图片链接',
+								width: 140,
+								edit: 'text'
+							}, {
+								field: 'score',
+								title: '库存',
+								width: 80,
+								sort: true
+							}, {
+								field: 'classify',
+								width: 100,
+								title: '销量',
+								sort: true
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#barDemo',
+								width: 150
+							}
+						]
+					]
+				});
+
+				//监听单元格编辑
+				table.on('edit(sale)', function(obj) {
+
+					var value = obj.value //得到修改后的值
+						,
+						data = obj.data //得到所在行所有键值
+						,
+						field = obj.field; //得到字段
+					layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+				});
+
+				//监听工具条
+				table.on('tool(sale)', function(obj) {
+					// alert(table);
+					var data = obj.data;
+					if (obj.event === 'detail') {
+						// layer.open('ID：'+ data.id + ' 的查看操作'+data.username);
+						layer.open({
+							content: JSON.stringify(data)
+						});
+					} else if (obj.event === 'del') {
+						layer.confirm('确认删除吗?', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if (obj.event === 'edit') {
+						layer.alert('编辑行：<br>' + JSON.stringify(data))
+					}
+				});
+
+
+			});
+
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//年月范围
+				laydate.render({
+					elem: '#test6',
+					min: -(7 * 30) //7月前
+						,
+					max: 7 * 30 //7月后
+						,
+					done: function(value, date) {
+						alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(value));
+					},
+					range: true
+				});
+			});
+
+			layui.use('laypage', function() {
+				var laypage = layui.laypage;
+
+				//总页数大于页码总数
+				//完整功能
+				laypage.render({
+					elem: 'demo1',
+					count: 50,
+					layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+					jump: function(obj, first) {
+						//向服务端发送数据,请求数据
+						console.log(obj)
+
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

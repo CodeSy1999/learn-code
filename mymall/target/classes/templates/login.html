@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员登陆</title>
+    <link rel="stylesheet" href="/css/layui.css">
+    <link rel="stylesheet" href="/css/login.css">
+
+	<script src="/js/jquery-2.2.3.min.js"></script>
+	<script src="/layer/layer.js"></script>
+</head>
+
+<body id="login">
+<div class="login">
+    <h2>管理员登录</h2>
+    <form class="layui-form" method="get" action="/admin/login">
+        <div th:unless="${login_msg}==null" style="color: red"
+             th:text="${login_msg}"></div>
+        <br>
+        <div class="layui-form-item">
+            <input type="text" name="adminName" lay-verify="required"
+                   lay-reqText="管理员名不能为空"
+                   placeholder="管理员名" class="layui-input" >
+            <i class="layui-icon input-icon">&#xe66f;</i>
+        </div>
+        <div class="layui-form-item">
+            <input type="password" name="adminPwd" lay-verify="required"
+                   lay-reqText="密码不能为空"
+                   placeholder="密码" class="layui-input">
+            <i class="layui-icon input-icon">&#xe673;</i>
+        </div>
+        <div class="layui-form-item">
+            <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住密码" checked=""> <a class="back" href="javascript:;"  style="margin-top: 10px">忘记密码</a>
+        </div>
+        <div class="layui-form-item">
+            <button style="width: 100%" class="layui-btn" lay-submit lay-filter="login">立即登录</button>
+        </div>
+    </form>
+
+    
+</div>
+<script src="/js/layui.all.js"></script>
+<script>
+		var form;
+		//JavaScript代码区域
+		
+		layui.use('element', function() {
+			var element = layui.element;
+		});
+		
+		layui.use('form', function() {
+			form = layui.form;
+
+		});
+        /*form.on('submit(login)', function(data){
+            console.log(data.elem); //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form); //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+            //return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });*/
+
+        form.verify({
+            admin_name: function (value,item) {
+                layer.alert(value);
+            }
+        });
+		
+</script>
+
+</body>
+
+</html>

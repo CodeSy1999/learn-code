@@ -1,0 +1,44 @@
+19:26:45.350 [main] INFO  com.codeashuai.SpringBootRunner ‐Starting SpringBootRunner on WIN-A9KFGRJ550G with PID 11024 (E:\SpringBootApplication\mymall\target\classes started by Admin in E:\SpringBootApplication\mymall)
+19:26:45.370 [main] INFO  com.codeashuai.SpringBootRunner ‐The following profiles are active: dev
+19:26:49.101 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate ‐Multiple Spring Data modules found, entering strict repository configuration mode!
+19:26:49.112 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate ‐Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+19:26:49.231 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate ‐Finished Spring Data repository scanning in 66ms. Found 0 Redis repository interfaces.
+19:26:54.668 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer ‐Tomcat initialized with port(s): 80 (http)
+19:26:54.738 [main] INFO  o.a.coyote.http11.Http11NioProtocol ‐Initializing ProtocolHandler ["http-nio-80"]
+19:26:54.738 [main] INFO  o.a.catalina.core.StandardService ‐Starting service [Tomcat]
+19:26:54.738 [main] INFO  o.a.catalina.core.StandardEngine ‐Starting Servlet engine: [Apache Tomcat/9.0.31]
+19:26:55.328 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] ‐Initializing Spring embedded WebApplicationContext
+19:26:55.328 [main] INFO  o.s.web.context.ContextLoader ‐Root WebApplicationContext: initialization completed in 9748 ms
+19:26:58.238 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping ‐Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+19:26:58.628 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor ‐Initializing ExecutorService 'applicationTaskExecutor'
+19:27:01.238 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper ‐Context refreshed
+19:27:01.368 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper ‐Found 1 custom documentation plugin(s)
+19:27:01.458 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner ‐Scanning for api listing references
+19:27:01.678 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator ‐Generating unique operation named: adminUsingGET_1
+19:27:01.878 [main] INFO  o.a.coyote.http11.Http11NioProtocol ‐Starting ProtocolHandler ["http-nio-80"]
+19:27:01.978 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer ‐Tomcat started on port(s): 80 (http) with context path ''
+19:27:01.988 [main] INFO  com.codeashuai.SpringBootRunner ‐Started SpringBootRunner in 19.83 seconds (JVM running for 25.79)
+19:27:21.947 [http-nio-80-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] ‐Initializing Spring DispatcherServlet 'dispatcherServlet'
+19:27:21.947 [http-nio-80-exec-2] INFO  o.s.web.servlet.DispatcherServlet ‐Initializing Servlet 'dispatcherServlet'
+19:27:21.987 [http-nio-80-exec-2] INFO  o.s.web.servlet.DispatcherServlet ‐Completed initialization in 38 ms
+19:27:22.152 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐进入logBefore方法前
+19:27:22.160 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐即将执行方法为: admin，属于com.codeashuai.controller.AdminController包
+19:27:22.163 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐用户请求的url为：http://localhost/admin，ip地址为：0:0:0:0:0:0:0:1
+19:27:22.187 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐方法admin执行完毕，返回参数为：login
+19:27:26.343 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐进入logBefore方法前
+19:27:26.344 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐即将执行方法为: login，属于com.codeashuai.controller.AdminController包
+19:27:26.344 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐用户请求的url为：http://localhost/admin/login，ip地址为：0:0:0:0:0:0:0:1
+19:27:26.345 [http-nio-80-exec-3] INFO  c.c.controller.AdminController ‐尝试登录:admin,123
+19:27:26.346 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐方法login执行完毕，返回参数为：redirect:/admin/index
+19:27:30.805 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐进入logBefore方法前
+19:27:30.808 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐即将执行方法为: userlist，属于com.codeashuai.controller.AdminController包
+19:27:30.808 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐用户请求的url为：http://localhost/admin/userlist，ip地址为：0:0:0:0:0:0:0:1
+19:27:30.809 [http-nio-80-exec-2] INFO  com.codeashuai.aspect.LogAspect ‐方法userlist执行完毕，返回参数为：admin/user-list
+19:27:39.912 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐进入logBefore方法前
+19:27:39.913 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐即将执行方法为: userchart，属于com.codeashuai.controller.AdminController包
+19:27:39.914 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐用户请求的url为：http://localhost/admin/userchart，ip地址为：0:0:0:0:0:0:0:1
+19:27:39.915 [http-nio-80-exec-3] INFO  com.codeashuai.aspect.LogAspect ‐方法userchart执行完毕，返回参数为：admin/user-chart
+19:27:41.573 [http-nio-80-exec-7] INFO  com.codeashuai.aspect.LogAspect ‐进入logBefore方法前
+19:27:41.574 [http-nio-80-exec-7] INFO  com.codeashuai.aspect.LogAspect ‐即将执行方法为: userlist，属于com.codeashuai.controller.AdminController包
+19:27:41.575 [http-nio-80-exec-7] INFO  com.codeashuai.aspect.LogAspect ‐用户请求的url为：http://localhost/admin/userlist，ip地址为：0:0:0:0:0:0:0:1
+19:27:41.576 [http-nio-80-exec-7] INFO  com.codeashuai.aspect.LogAspect ‐方法userlist执行完毕，返回参数为：admin/user-list

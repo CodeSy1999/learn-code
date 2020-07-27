@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/frame::header">
+</head>
+	
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header layui-bg-black" th:replace="admin/frame::top">
+			</div>
+
+			<div class="layui-side layui-bg-black"
+				 th:replace="admin/frame::left(4,42)">
+			</div>
+
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 10px;">
+
+					<div class="demoTable" style="padding: 10px;">
+						<h3>开启促销商品</h3>
+						<hr class="layui-bg-red">
+					</div>
+
+					<table class="layui-hide" id="LAY_table_sale" lay-filter="sale"></table>
+
+					<div class="layui-row">
+						<div class="layui-col-md8">
+							<div id="demo1"></div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				©  底部固定区域
+			</div>
+		</div>
+		<script src="/js/layui.all.js"></script>
+		<script type="text/html" id="barDemo">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">开启促销</a>
+  <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+</script>
+		<script>
+			var urlstr = '/json/user.json';
+			var form;
+			//JavaScript代码区域
+			layui.use('element', function() {
+				var element = layui.element;
+			});
+			
+			layui.use('form', function() {
+				form = layui.form;
+			});
+
+			layui.use('table', function() {
+				var table = layui.table;
+				table.render({
+					elem: '#LAY_table_sale'
+						// ,url:'json/user.json'
+						,
+					url: urlstr,
+					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+						,
+					cols: [
+						[{
+								type: 'numbers'
+							},
+							{
+								field: 'id',
+								width: 80,
+								title: 'ID',
+								sort: true
+							},
+							{
+								field: 'username',
+								width: 80,
+								title: '品牌',
+								// edit: 'text'
+							}, {
+								field: 'sex',
+								width: 80,
+								title: '型号'
+							}, {
+								field: 'city',
+								width: 80,
+								title: '定价',
+								sort: true,
+								edit: 'text'
+							}, {
+								field: 'sign',
+								title: '描述',
+								width: '20%',
+								minWidth: 40
+							} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+							, {
+								field: 'experience',
+								title: '图片链接',
+								width: 140,
+								// edit: 'text'
+							}, {
+								field: 'score',
+								title: '库存',
+								width: 80,
+								sort: true
+							}, {
+								field: 'classify',
+								width: 100,
+								title: '销量',
+								sort: true
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#barDemo',
+								width: 150
+							}
+						]
+					]
+				});
+
+				//监听单元格编辑
+				table.on('edit(sale)', function(obj) {
+
+					var value = obj.value //得到修改后的值
+						,
+						data = obj.data //得到所在行所有键值
+						,
+						field = obj.field; //得到字段
+					layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
+				});
+
+				//监听工具条
+				table.on('tool(sale)', function(obj) {
+					// alert(table);
+					var data = obj.data;
+					var datas = JSON.stringify(data);
+					if (obj.event === 'detail') {
+						// layer.open('ID：'+ data.id + ' 的查看操作'+data.username);
+						layer.open({
+							content: JSON.stringify(data)
+						});
+					} else if (obj.event === 'del') {
+						layer.confirm('确认删除吗?', function(index) {
+							obj.del();
+							layer.close(index);
+						});
+					} else if (obj.event === 'edit') {
+						// layer.alert('编辑行：<br>' + JSON.stringify(data))
+						var frame = "";
+						layer.open({
+							type: 0,
+							title: '开启促销',
+							content: frame,
+							yes: function(index, layero){
+								//获得该行的数据
+								layer.alert(datas);
+								//layer.close(index); //如果设定了yes回调，需进行手工关闭
+							}
+					
+						});
+					}
+				});
+
+
+			});
+
+			layui.use('laypage', function() {
+				var laypage = layui.laypage;
+
+				//总页数大于页码总数
+				//完整功能
+				laypage.render({
+					elem: 'demo1',
+					count: 50,
+					layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+					jump: function(obj, first) {
+						//向服务端发送数据,请求数据
+						console.log(obj)
+
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
