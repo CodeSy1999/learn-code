@@ -13,6 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "authority")
+@Data
 public class Authority {
 
     @Id
@@ -31,61 +32,4 @@ public class Authority {
     public Authority() {
     }
 
-    public Authority(Boolean authorityRegisty, Boolean authorityThread, Boolean authorityPromotion, Boolean authorityOthers) {
-        this.authorityRegisty = authorityRegisty;
-        this.authorityThread = authorityThread;
-        this.authorityPromotion = authorityPromotion;
-        this.authorityOthers = authorityOthers;
-    }
-
-    public Integer getAuthorityId() {
-        return authorityId;
-    }
-
-    public void setAuthorityId(Integer authorityId) {
-        this.authorityId = authorityId;
-    }
-
-    public Boolean getAuthorityRegisty() {
-        return authorityRegisty;
-    }
-
-    public void setAuthorityRegisty(Boolean authorityRegisty) {
-        this.authorityRegisty = authorityRegisty;
-    }
-
-    public Boolean getAuthorityThread() {
-        return authorityThread;
-    }
-
-    public void setAuthorityThread(Boolean authorityThread) {
-        this.authorityThread = authorityThread;
-    }
-
-    public Boolean getAuthorityPromotion() {
-        return authorityPromotion;
-    }
-
-    public void setAuthorityPromotion(Boolean authorityPromotion) {
-        this.authorityPromotion = authorityPromotion;
-    }
-
-    public Boolean getAuthorityOthers() {
-        return authorityOthers;
-    }
-
-    public void setAuthorityOthers(Boolean authorityOthers) {
-        this.authorityOthers = authorityOthers;
-    }
-
-    @Override
-    public String toString() {
-        return "Authority{" +
-                "authorityId=" + authorityId +
-                ", authorityRegisty=" + authorityRegisty +
-                ", authorityThread=" + authorityThread +
-                ", authorityPromotion=" + authorityPromotion +
-                ", authorityOthers=" + authorityOthers +
-                '}';
-    }
 }

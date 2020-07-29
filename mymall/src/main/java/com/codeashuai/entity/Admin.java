@@ -15,6 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "admin")
+@Data
 public class Admin {
 
     @Id
@@ -35,71 +36,4 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(String adminName, String adminPwd, String adminGender, String adminImg, Integer adminAuthority) {
-        this.adminName = adminName;
-        this.adminPwd = adminPwd;
-        this.adminGender = adminGender;
-        this.adminImg = adminImg;
-        this.adminAuthority = adminAuthority;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
-
-    public String getAdminName() {
-        return adminName;
-    }
-
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
-    }
-
-    public String getAdminPwd() {
-        return adminPwd;
-    }
-
-    public void setAdminPwd(String adminPwd) {
-        this.adminPwd = adminPwd;
-    }
-
-    public String getAdminGender() {
-        return adminGender;
-    }
-
-    public void setAdminGender(String adminGender) {
-        this.adminGender = adminGender;
-    }
-
-    public String getAdminImg() {
-        return adminImg;
-    }
-
-    public void setAdminImg(String adminImg) {
-        this.adminImg = adminImg;
-    }
-
-    public Integer getAdminAuthority() {
-        return adminAuthority;
-    }
-
-    public void setAdminAuthority(Integer adminAuthority) {
-        this.adminAuthority = adminAuthority;
-    }
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "adminId=" + adminId +
-                ", adminName='" + adminName + '\'' +
-                ", adminPwd='" + adminPwd + '\'' +
-                ", adminGender='" + adminGender + '\'' +
-                ", adminImg='" + adminImg + '\'' +
-                ", adminAuthority=" + adminAuthority +
-                '}';
-    }
 }

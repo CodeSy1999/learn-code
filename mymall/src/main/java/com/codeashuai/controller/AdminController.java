@@ -36,12 +36,15 @@ public class AdminController {
         return "login";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(String adminName,String adminPwd,String rememberMe,RedirectAttributes attributes){
         //获得用户名和密码
         log.info("尝试登录:{},{},{}",adminName,adminPwd,rememberMe);
         UsernamePasswordToken token = new UsernamePasswordToken(adminName,adminPwd);
         Subject subject = SecurityUtils.getSubject();
+        if(rememberMe!=null && "on".equals(rememberMe)){
+            token.setRememberMe(true);
+        }
         try{
             subject.login(token);
         }catch (Exception e){

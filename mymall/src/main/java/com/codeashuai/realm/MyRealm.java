@@ -28,6 +28,7 @@ public class MyRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        //这个是new SimpleAuthenticationInfo(admin.getAdminName(),这个方法第一个参数
         String adminName = (String)principalCollection.getPrimaryPrincipal();
         Admin admin = adminService.getAdminByAdminName(adminName);
         String role = admin.getAdminAuthority()+"";
@@ -45,6 +46,8 @@ public class MyRealm extends AuthorizingRealm {
         String adminName = (String)token.getPrincipal();
         Admin admin = adminService.getAdminByAdminName(adminName);
         if(admin != null){
+            //第一个参数就是上面授权取出来的principalCollection
+            //下面参数从数据库中取出来
             SimpleAuthenticationInfo authenticationInfo = new
                     SimpleAuthenticationInfo(admin
                     .getAdminName(),admin.getAdminPwd(), ByteSource.Util.bytes

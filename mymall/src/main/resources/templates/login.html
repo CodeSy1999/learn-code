@@ -14,7 +14,7 @@
 <body id="login">
 <div class="login">
     <h2>管理员登录</h2>
-    <form class="layui-form" method="get" action="/admin/login">
+    <form class="layui-form" method="post" action="/admin/login">
         <div th:unless="${login_msg}==null" style="color: red"
              th:text="${login_msg}"></div>
         <br>
