@@ -8,10 +8,12 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -36,7 +38,7 @@ public class AdminController {
         return "login";
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public String login(String adminName,String adminPwd,String rememberMe,RedirectAttributes attributes){
         //获得用户名和密码
         log.info("尝试登录:{},{},{}",adminName,adminPwd,rememberMe);
@@ -57,8 +59,9 @@ public class AdminController {
         subject.getSession().setAttribute("isLogin",true);
         log.info("登录成功isLogin:{}",subject.getSession().getAttribute("isLogin"));
         return "redirect:/admin/index";
-    }
+    }*/
 
+    @Secured("1")
     @GetMapping("/userchart")
     public String userchart(){
         return "admin/user-chart";
@@ -129,11 +132,11 @@ public class AdminController {
         return "admin/admin-message";
     }
 
-    @GetMapping("/logout")
-    public void adminlogout(HttpSession session){
-        session.removeAttribute("isLogin");
+    /*@GetMapping("/logout")
+    public String adminlogout(HttpSession session){
         log.info("==========注销==============");
-    }
+        return "redirect:/admin";
+    }*/
 
     @GetMapping("/test")
     public String test(){

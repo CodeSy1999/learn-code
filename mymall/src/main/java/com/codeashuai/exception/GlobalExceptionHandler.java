@@ -34,11 +34,11 @@ public class GlobalExceptionHandler {
         return new Result<String>(code,message,"返回的结果信息");
     }
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public Result handleMyexception2(Exception m){
 //        String code = m.getCode();
         String message = m.getMessage();
         log.warn("异常发生: 信息：{}",message);
         return new Result<String>(401+"",message,"返回的结果信息");
-    }
+    }*/
 }

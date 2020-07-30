@@ -5,6 +5,8 @@ import com.codeashuai.reposity.AdminReposity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,6 +27,15 @@ public class AdminServiceImpl implements AdminService {
 //        return new Admin("admin","88212f91e2e9cf36981a91b6c518af5c","男","url",1);
         Admin admin = adminReposity.findByAdminName(adminName);
         log.info("==========从数据库获取到的admin:{}=========",admin);
+        return admin;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) throws
+            UsernameNotFoundException {
+        log.warn("===============传入的name:{}=============",name);
+        Admin admin = adminReposity.getByAdminName(name);
+        log.warn("查询出的admin:{}",admin.getAdminName());
         return admin;
     }
 }

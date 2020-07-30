@@ -23,17 +23,17 @@ import java.util.Map;
  * @version 1.0
  * @date 2020/7/27 14:00
  */
-@Configuration
+/*@Configuration
 public class ShiroConfig {
 
     private static final Logger log = LoggerFactory.getLogger(ShiroConfig.class);
 
-    /*@Bean
+    *//*@Bean
     public MyRealm myRealm(){
         MyRealm myRealm = new MyRealm();
         log.info("======myRealm注册完成=======");
         return myRealm;
-    }*/
+    }*//*
 
     @Bean
     public SecurityManager securityManager(){
@@ -108,4 +108,4 @@ public class ShiroConfig {
         return new PasswordHelper();
     }
 
-}
+}*/

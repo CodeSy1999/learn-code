@@ -1,12 +1,17 @@
 package com.codeashuai.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GeneratorType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author shuaiyong
@@ -16,7 +21,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "admin")
 @Data
-public class Admin {
+public class Admin implements UserDetails {
 
     @Id
     @GeneratedValue
@@ -35,5 +40,49 @@ public class Admin {
 
     public Admin() {
     }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        //给予角色权限
+        AuthorityPoint authorityPoint = new AuthorityPoint();
+        authorityPoint.setAuthorityId(adminAuthority+"");
+        return Arrays.asList(authorityPoint);
+    }
+
+    @Override
+    public String getPassword() {
+        return adminPwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return adminName;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
 }

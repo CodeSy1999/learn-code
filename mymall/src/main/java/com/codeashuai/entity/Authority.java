@@ -1,8 +1,10 @@
 package com.codeashuai.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
@@ -31,5 +33,6 @@ public class Authority {
 
     public Authority() {
     }
+
 
 }
