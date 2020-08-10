@@ -27,7 +27,7 @@
             <input type="text" class="layui-input" id="test8" placeholder="                 ------ ">
           </div>
         </div>
-      	 最多显示近六个月的注册量
+      	 <!--最多显示近六个月的注册量-->
       </div>
     </div>
 
@@ -42,11 +42,60 @@
 <script src="/js/echarts.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
+        var months = [];
+        var monthResNum = [];
+        var array = [
+            /*{value:235, name:'视频广告'},
+            {value:274, name:'联盟广告'},
+            {value:310, name:'邮件营销'},
+            {value:335, name:'直接访问'},
+            {value:400, name:'搜索引擎'}*/
+        ];
+        function getChart(start,end) {
+            console.log(start+end);
+            // var jstrmonths = JSON.stringify(months);
+            /*$.getJSON(
+                "/user/getChart"
+                ,{"start": start,
+                    "end": end}
+                ,function (result) {
+                    // alert("返回的结果："+result.length);
+                    console.log(result.length);
+                    // alert("类型："+typeof result);
+                });*/
+            $.ajax({
+                url: "/user/getChart",
+                type: "post",
+                async:false,
+                // async: false,
+                dataType: "json",
+                data: {
+                    "start": start,
+                    "end": end
+                },
+                success: function(data) {
+                    // alert("返回的结果："+data);
+                    console.log(data);
+
+                    for(var i=0;i<data.length;i++){
+                        months.push(data[i].months+"月");
+                        monthResNum.push(data[i].num);
+                        // array.push()
+                        array.push({value:data[i].num, name:data[i].months+"月"});
+                    }
+
+                }
+            });
+        }
+
         var myChart = echarts.init(document.getElementById('main'));
-				
-				function fetchData() {				 
+                // months = ["一月"];
+                var start = 4;
+                var end = 8;
+                getChart(start,end);
+				function fetchData() {
 					 //获取服务端的数据
-					 
+
 					 myChart.hideLoading();
 				}
 				myChart.showLoading();
@@ -60,34 +109,28 @@
                 data:['注册量']
             },
             xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                data: months
             },
             yAxis: {},
             series: [{
                 name: '注册量',
                 type: 'bar',
-								color:'lightblue',
-                data: [5, 20, 36, 10, 10, 20]
+				color:'lightblue',
+                data: monthResNum
             }]
         };
 				
         myChart.setOption(option);
 				fetchData();
-				
+
 				var myChart2 = echarts.init(document.getElementById('main2'));
 			  var option2 = {
 						series : [
 								{
-										name: '访问来源',
-										type: 'pie',
-										radius: '55%',
-										data:[
-												{value:235, name:'视频广告'},
-												{value:274, name:'联盟广告'},
-												{value:310, name:'邮件营销'},
-												{value:335, name:'直接访问'},
-												{value:400, name:'搜索引擎'}
-										]
+                                      name: '注册量',
+                                      type: 'pie',
+                                      radius: '55%',
+                                      data: array
 								}
 						]
 				};
@@ -111,7 +154,19 @@ layui.use('laydate', function(){
 		,max: 120 //7天后
     ,type: 'month'
 		,done: function(value, date){
-		  alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(value));
+          if(value==null || value=="")
+              return;
+          months.splice(0,months.length);
+          monthResNum.splice(0,monthResNum.length);
+          array.splice(0,array.length);
+		  // alert('你选择的日期是：' + value + '获得的对象是' + JSON.stringify(value));
+		  var start = parseInt(value.substring(5,7));
+		  var end = parseInt(value.substring(15));
+          getChart(start,end);
+
+          myChart.setOption(option);
+          myChart2.setOption(option2);
+          // fetchData();
 		}
 		,range: true
   });

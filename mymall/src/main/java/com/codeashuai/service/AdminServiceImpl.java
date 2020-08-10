@@ -1,6 +1,7 @@
 package com.codeashuai.service;
 
 import com.codeashuai.entity.Admin;
+import com.codeashuai.entity.Authority;
 import com.codeashuai.reposity.AdminReposity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author shuaiyong
@@ -31,11 +35,33 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<Admin> findAll(){
+        List<Admin> allAdmins = adminReposity.findAll();
+        log.warn("所有查询到的admins：{}",allAdmins);
+        for(Admin admin:allAdmins){
+            log.warn("包含的admin权限：{}",admin.getAdminAuthority());
+            log.warn("包含的admin日志：{}",admin.getAdminlogs());
+            log.warn("包含的admin消息：{}",admin.getAdminMsgs());
+        }
+        return allAdmins;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String name) throws
             UsernameNotFoundException {
         log.warn("===============传入的name:{}=============",name);
         Admin admin = adminReposity.getByAdminName(name);
-        log.warn("查询出的admin:{}",admin.getAdminName());
+        if(admin == null){
+            throw new UsernameNotFoundException("User not authorized.");
+        }
+        /*else {
+            ArrayList<Authority> authorities = new ArrayList<>();
+            Authority authority = new Authority();
+            authority.setAuthorityId(1);
+            authorities.add(authority);
+            admin.setAdminAuthority(authorities);
+        }*/
+        log.warn("查询出的admin:{}",admin);
         return admin;
     }
 }

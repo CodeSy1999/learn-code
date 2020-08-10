@@ -1,14 +1,19 @@
 package com.codeashuai.controller;
 
 
+import com.codeashuai.entity.Admin;
 import com.codeashuai.exception.MyException;
 import com.codeashuai.exception.MyExceptionEnum;
+import com.codeashuai.service.AdminService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -27,14 +32,17 @@ public class AdminController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    AdminService adminService;
+
     @GetMapping({"","/"})
     public String admin(HttpSession session){
         //判断是否已经登录过了
-        Object isLogin = session.getAttribute("isLogin");
+        /*Object isLogin = session.getAttribute("isLogin");
         log.info("==========登陆前isLogin:{}=========",isLogin);
         if(isLogin!=null && (boolean)isLogin==true){
             return "redirect:/admin/index";
-        }
+        }*/
         return "login";
     }
 
@@ -61,7 +69,9 @@ public class AdminController {
         return "redirect:/admin/index";
     }*/
 
-    @Secured("1")
+
+
+    @Secured("ROLE_1")
     @GetMapping("/userchart")
     public String userchart(){
         return "admin/user-chart";
@@ -69,6 +79,8 @@ public class AdminController {
 
     @GetMapping("/userlist")
     public String userlist(){
+        //查出用户信息,返回Model到用户列表页
+
         return "admin/user-list";
     }
 
@@ -127,6 +139,7 @@ public class AdminController {
         return "admin/authority-manager";
     }
 
+//    @ResponseBody
     @GetMapping("/adminmessage")
     public String adminmessage(){
         return "admin/admin-message";
@@ -139,8 +152,11 @@ public class AdminController {
     }*/
 
     @GetMapping("/test")
-    public String test(){
-        throw new MyException(MyExceptionEnum.AUTHORITY_Exception);
+    @ResponseBody
+    public void test(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.warn("得到的信息：{}",(Admin)authentication.getPrincipal());
+//        throw new MyException(MyExceptionEnum.AUTHORITY_Exception);
     }
 
     @GetMapping("/test1")

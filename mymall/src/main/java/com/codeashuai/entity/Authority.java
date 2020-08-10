@@ -4,9 +4,11 @@ package com.codeashuai.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author shuaiyong
@@ -16,10 +18,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "authority")
 @Data
-public class Authority {
+public class Authority implements GrantedAuthority {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authority_id")
     private Integer authorityId;
     @Column(name = "authority_registy")
@@ -31,8 +33,16 @@ public class Authority {
     @Column(name = "authority_others")
     private Boolean authorityOthers;
 
+    @ManyToMany(mappedBy = "adminAuthority")
+    @ToString.Exclude
+    private List<Admin> authorityAdmin;
+
     public Authority() {
     }
 
-
+    @JsonIgnore
+    @Override
+    public String getAuthority() {
+        return "ROLE_"+authorityId;
+    }
 }

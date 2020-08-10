@@ -6,6 +6,28 @@ logging:
 
 # 激活哪一个环境
 spring:
+  data:
+    elasticsearch:
+      cluster-nodes: 47.107.246.179:9300
+      cluster-name: codeashuai-elasticsearch
+      repositories:
+        enabled: true
+  redis:
+    host: 47.107.246.179
+    port: 6379
+    timeout: 60s
+    jedis:
+      pool:
+        # 最大空闲连接数
+        max-idle: 30
+        # 最小空闲连接数
+        min-idle: 10
+        # 等待可用连接的最大时间，负数为不限制
+        max-wait:  60s
+        # 最大活跃连接数，负数为不限制
+        max-active: 20
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     active: dev
   thymeleaf:
@@ -52,12 +74,20 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
 
 
 server:
   tomcat:
     uri-encoding: utf-8
+
+key:
+  pubKeyPath: G:\\auth_key\\rsa_key.pub
+  priKeyPath: G:\\auth_key\\rsa_key
+
+
 
 
 

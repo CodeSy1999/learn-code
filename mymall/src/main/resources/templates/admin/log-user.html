@@ -45,7 +45,8 @@
 </script>
 		<script type="text/html" id="checkboxTpl">
 			<!-- 这里的 checked 的状态只是演示 -->
-  <input type="checkbox" name="正常" value="{{d.id}}" title="正常" lay-filter="lockDemo" {{ d.id = 'checked' }}>
+  <input type="checkbox" name="正常" value="{{d.id}}" title="正常"
+		 lay-filter="lockDemo" {{ d.id = 'checked' }}>
 </script>
 		<script>
 			var urlstr = '/json/user.json';
@@ -64,10 +65,8 @@
 			layui.use('table', function() {
 				var table = layui.table;
 				table.render({
-					elem: '#LAY_table_user'
-						// ,url:'json/user.json'
-						,
-					url: urlstr,
+					elem: '#LAY_table_user',
+					url: '/log/user',
 					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 						,
 					cols: [

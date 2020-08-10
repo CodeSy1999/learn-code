@@ -16,6 +16,11 @@ public interface AdminReposity extends JpaRepository<Admin,Integer>{
 
     Admin findByAdminName(String adminName);
 
+    /**
+     * 关联查询出角色对应的权限
+     * @param name
+     * @return
+     */
     @Query("select a from Admin a where a.adminName = ?1")
     Admin getByAdminName(String name);
 }

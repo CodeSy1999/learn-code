@@ -22,9 +22,7 @@
 					<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
 
 					<div class="layui-row">
-						<div class="layui-col-md8">
 							<div id="demo1"></div>
-						</div>
 					</div>
 
 				</div>
@@ -43,13 +41,14 @@
 			<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-		<script type="text/html" id="checkboxTpl">
+<script type="text/html" id="checkboxTpl">
 			<!-- 这里的 checked 的状态只是演示 -->
   <input type="checkbox" name="正常" value="{{d.id}}" title="正常" lay-filter="lockDemo" {{ d.id = 'checked' }}>
 </script>
-		<script>
+		<script th:inline="javascript">
 			var urlstr = '/json/user.json';
 			var form;
+			var table;
 			//JavaScript代码区域
 
 			layui.use('element', function() {
@@ -62,52 +61,57 @@
 			});
 
 			layui.use('table', function() {
-				var table = layui.table;
+				table = layui.table;
 				table.render({
-					elem: '#LAY_table_user'
-						// ,url:'json/user.json'
-						,
-					url: urlstr,
-					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,
+					elem: '#LAY_table_user',
+					url: '/log/adminLog',
+					id: 'tableIns',
+                    request: {
+                        pageName: 'curr' //页码的参数名称，默认：page
+                        ,limitName: 'nums' //每页数据量的参数名，默认：limit
+                    },
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    loading: true,
+					parseData: function (res) {
+                        return {
+                            "code": 0,
+                            // "total": res.totalElements,
+                            "data": res.content
+                        };
+                    },	//渲染完后的回调函数
 					cols: [
 						[{
 								type: 'numbers'
 							},
 							{
-								field: 'id',
-								width: 100,
+								field: 'alogId',
+								width: 90,
 								title: 'ID',
 								sort: true
 							}, {
-								field: 'username',
-								width: 100,
-								title: '管理员ID',
-								edit: 'text'
-							}, {
-								field: 'sex',
+								field: 'alogAdminName',
 								width: 110,
-								title: '管理员名',
-								sort: true
+								title: '管理员名'
+								// sort: true
 							}, {
-								field: 'city',
-								width: 120,
-								title: '请求',
-								edit: 'text'
+								field: 'alogUrl',
+								width: 250,
+								title: '请求'
 							}, {
-								field: 'sign',
+								field: 'alogTime',
 								title: '时间',
-								width: '15%',
-								minWidth: 40
+								width: '17%',
+								minWidth: 40,
+                            	templet:"<div>{{layui.util.toDateString(d.alogTime)}}</div>"
 							} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
 							, {
-								field: 'experience',
+								field: 'alogIp',
 								title: 'IP地址',
 								width: 130,
 								sort: true
 							}, 
 							{
-								field: 'classify',
+								field: 'alogRes',
 								title: '是否正常',
 								width: 110,
 								templet: '#checkboxTpl',
@@ -165,17 +169,36 @@
 
 			layui.use('laypage', function() {
 				var laypage = layui.laypage;
-
+                var res;
+                $.ajax({
+                    url: '/log/logtotal',
+                    type: 'post',
+                    async:false,
+                    dataType: 'json',
+                    success: function (data) {
+                        res = data;  //number类型
+                    }
+                });
 				//总页数大于页码总数
 				//完整功能
 				laypage.render({
 					elem: 'demo1',
-					count: 50,
+					count: res,
 					layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
 					jump: function(obj, first) {
 						//向服务端发送数据,请求数据
-						console.log(obj)
-
+						console.log(obj);
+                        //重载表格，传递页数curr和大小nums
+                        if(first){
+                            return;
+                        }
+                        table.reload('tableIns',{
+                            url: '/log/adminLog2',
+                            where: {
+                                currPage: obj.curr,
+                                pageNum: obj.limit
+                            }
+                        });
 					}
 				});
 			});

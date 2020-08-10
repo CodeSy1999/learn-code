@@ -23,7 +23,8 @@
 						用户状态：
 
 						<input type="checkbox" name="normal" title="正常">
-						<button class="layui-btn"><i class="layui-icon layui-icon-search"></i>搜索</button>
+						<button class="layui-btn" id="search"><i
+								class="layui-icon layui-icon-search"></i>搜索</button>
 						<button type="button" class="layui-btn"><i class="layui-icon layui-icon-add-circle"></i>添加用户</button>
 						<!-- 发送ajax请求 -->
 					</form>
@@ -37,9 +38,6 @@
 							<div id="demo1"></div>
 						</div>
 						<div class="layui-col-md4">
-							<br>
-							用户名<i class="layui-icon layui-icon-username"></i> 和电话<i class="layui-icon layui-icon-cellphone-fine"></i>
-							可以修改，需要中级管理员权限 <i class="layui-icon layui-icon-vercode"></i>
 						</div>
 					</div>
 
@@ -55,19 +53,21 @@
 
 
 
-		<script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+<script type="text/html" id="barDemo">
+		<a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 		<script type="text/html" id="checkboxTpl">
 			<!-- 这里的 checked 的状态只是演示 -->
-  <input type="checkbox" name="正常" value="{{d.id}}" title="正常" lay-filter="lockDemo" {{ d.id = 'checked' }}>
+  <input id="normal" type="checkbox" name="userFlag" value="{{d.userId}}"
+		 title="正常"
+		 lay-filter="lockDemo" {{ d.userFlag==true?'checked':'' }} >
 </script>
-		<script>
+		<script th:inline="javascript">
 			var urlstr = '/json/user.json';
 			var form;
 			//JavaScript代码区域
-
+			var table;
 			layui.use('element', function() {
 				var element = layui.element;
 
@@ -78,90 +78,123 @@
 			});
 
 			layui.use('table', function() {
-				var table = layui.table;
+				table = layui.table;
 				table.render({
-					elem: '#LAY_table_user'
-						// ,url:'json/user.json'
-						,
-					url: urlstr,
-					cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-						,
-					cols: [
-						[{
-								type: 'numbers'
-							},
-							{
-								field: 'id',
-								width: 80,
-								title: 'ID',
-								sort: true
-							}, {
-								field: 'username',
-								width: 80,
-								title: '用户名',
-								edit: 'text'
-							}, {
-								field: 'sex',
-								width: 80,
-								title: '性别',
-								sort: true
-							}, {
-								field: 'city',
-								width: 80,
-								title: '电话',
-								edit: 'text'
-							}, {
-								field: 'sign',
-								title: '密码',
-								width: '15%',
-								minWidth: 40
-							} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-							, {
-								field: 'experience',
-								title: '订单数',
-								width: 100,
-								sort: true
-							}, {
-								field: 'score',
-								title: '日志ID',
-								// sort: true
-							},
-							/* {
-								field: 'classify',
-								title: '状态'
-							} */
-							{
-								field: 'classify',
-								title: '是否正常',
-								width: 110,
-								templet: '#checkboxTpl',
-								unresize: true
-							}, {
-								field: 'wealth',
-								width: 137,
-								title: '注册时间',
-								sort: true
-							},
-							{
-								fixed: 'right',
-								title: '操作',
-								toolbar: '#barDemo',
-								width: 130
-							}
-						]
-					]
+					elem: '#LAY_table_user',
+					url: '/user/userjson',
+					request: {
+                        pageName: 'curr' //页码的参数名称，默认：page
+                        ,limitName: 'nums' //每页数据量的参数名，默认：limit
+					},
+					id: 'tableIns',
+					// url: urlstr,
+                    loading: true,
+					parseData: function (res) {
+						return {
+						    "code": 0,
+							// "total": res.totalElements,
+						    "data": res.content
+						};
+                    },	//渲染完后的回调函数
+                    done: function(res,curr,count){
+					    var jsonstr = JSON.stringify(res);
+					    var json1 = JSON.parse(jsonstr);
+						console.log(json1);
+                    },
+					cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                    cols: [
+                        [{
+                            type: 'numbers'
+                        },
+                            {
+                                field: 'userId',
+                                width: 80,
+                                title: 'ID',
+                                sort: true
+                            }, {
+                            field: 'userName',
+                            width: 80,
+                            title: '用户名',
+                            edit: 'text'
+                        }, {
+                            field: 'userGender',
+                            width: 80,
+                            title: '性别',
+                            sort: true
+                        }, {
+                            field: 'userTel',
+                            width: 80,
+                            title: '电话',
+                            edit: 'text'
+                        }, {
+                            field: 'userPassword',
+                            title: '密码',
+                            width: '15%',
+                            minWidth: 40
+                        } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                            , {
+                            field: 'userImg',
+                            title: '图片',
+                            width: 100,
+                        }, {
+                            field: 'userTel',
+                            title: '日志ID',
+                            // sort: true
+                        },
+                            /* {
+                                field: 'classify',
+                                title: '状态'
+                            } */
+                            {
+                                field: 'userFlag',
+                                title: '是否正常',
+                                width: 110,
+                                templet: '#checkboxTpl',
+                                unresize: true
+                            }, {
+                            field: 'userRegTime',
+                            width: 137,
+                            title: '注册时间',
+                            sort: true,
+                            templet:"<div>{{layui.util.toDateString(d.userRegTime)}}</div>"
+                        },
+                            {
+                                fixed: 'right',
+                                title: '操作',
+                                toolbar: '#barDemo',
+                                width: 130
+                            }
+                        ]
+                    ]
 				});
 
+				/**
+				 * 	分页功能表格重载
+				 */
+				function limit_page() {
+
+                }
+
+                /**
+				 * 搜索功能表格重载
+                 */
+				$("#search").click(function () {
+				    alert(111);
+                    table.reload('tableIns',{
+                        url: '/es/searchUserName',
+                        where: {
+							userName: $("#demoReload").val()
+                        }
+                    });
+                })
 
 
 				//监听单元格编辑
 				table.on('edit(user)', function(obj) {
 
-					var value = obj.value //得到修改后的值
-						,
-						data = obj.data //得到所在行所有键值
-						,
-						field = obj.field; //得到字段
+					var value = obj.value, //得到修改后的值
+					data = obj.data, //得到所在行所有键值
+					field = obj.field; //得到字段
 					layer.msg('[ID: ' + data.id + '] ' + field + ' 字段更改为：' + value);
 				});
 
@@ -169,15 +202,38 @@
 				table.on('tool(user)', function(obj) {
 					// alert(table);
 					var data = obj.data;
+					var str = JSON.stringify(data);
+					var jsonuser = JSON.parse(str);
 					if (obj.event === 'detail') {
 						// layer.open('ID：'+ data.id + ' 的查看操作'+data.username);
 						layer.open({
-							content: JSON.stringify(data)
+							content:"<div class=\"layui-col-md9\">\n" +
+                            "      <div class=\"layui-card\">\n" +
+                            "        <div class=\"layui-card-header\">用户信息</div>\n" +
+                            "        <div class=\"layui-card-body\">\n" +
+                            "          ID:       "+jsonuser.userId+"<br>\n" +
+                            "          用户名: "+jsonuser.userName+"<br>\n" +
+                            "          性别: "+jsonuser.userGender+"<br>\n" +
+                            "          电话: "+jsonuser.userTel+"<br>\n" +
+                            "          密码: "+jsonuser.userPassword+"<br>\n" +
+                            "          图片: "+jsonuser.userImg+"<br>\n" +
+                            "          是否正常: "+jsonuser.userFlag+"<br>\n" +
+                            "          注册时间: "+jsonuser.userRegTime+"<br>\n"+
+                            "    </div></div></div>",
+							resize: false
 						});
 					} else if (obj.event === 'del') {
 						layer.confirm('确认删除吗?', function(index) {
 							obj.del();
 							layer.close(index);
+							//删除对应的用户
+							console.log(obj);
+							$.ajax({
+								url: '/user/deleteUser',
+								type: 'post',
+								dataType: 'json',
+								data: {"userId":jsonuser.userId}
+							});
 						});
 					} else if (obj.event === 'edit') {
 						layer.alert('编辑行：<br>' + JSON.stringify(data))
@@ -186,28 +242,65 @@
 
 				//监听锁定操作
 				form.on('checkbox(lockDemo)', function(obj) {
-					layer.msg(JSON.stringify(obj));
-					layer.tips(this.value + ' ' + this.name + '：' + obj.elem.checked,obj.othis);
+				    // var str = JSON.stringify(obj);
+					// layer.msg(str);
+					//向服务器发送消息修改用户状态
+					$.ajax({
+						url: '/user/changeUserFlag',
+						type: 'post',
+						dataType: 'json',
+						data: {"userId":obj.value}
+					});
+					layer.open({
+						content: "修改成功"
+					});
+					layer.tips(this.name + '：' + obj.elem.checked,obj.othis);
 				});
 
 			});
 
 			layui.use('laypage', function() {
 				var laypage = layui.laypage;
-
+				var res;
+                $.ajax({
+                    url: '/user/usertotal',
+                    type: 'post',
+                    async:false,
+                    dataType: 'json',
+                    success: function (data) {
+                        res = data;  //number类型
+                    }
+                });
 				//总页数大于页码总数
 				//完整功能
 				laypage.render({
 					elem: 'demo1',
-					count: 30,
+					count: res,	//数据库获取
+					limit: 2,
+					limits: [2,5],
 					layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
 					jump: function(obj, first) {
 						//向服务端发送数据,请求数据
-						console.log(obj)
-
+						var str = JSON.stringify(obj);
+						var jsonpage = JSON.parse(str);
+						console.log(str);
+						//重载表格，传递页数curr和大小nums
+						if(first){
+						    return;
+						}
+                        table.reload('tableIns',{
+                            url: '/user/userjson2',
+                            where: {
+                                currPage: jsonpage.curr,
+								pageNum: jsonpage.limit
+                            }
+                        });
 					}
 				});
+
 			});
+
+
 		</script>
 
 	</body>
